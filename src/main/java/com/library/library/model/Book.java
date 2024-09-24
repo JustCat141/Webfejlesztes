@@ -17,7 +17,4 @@ public class Book {
     private String title;
     private String author;
     private Integer releaseYear;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User borrowedBy;
 }

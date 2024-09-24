@@ -4,7 +4,6 @@ import com.library.library.model.Book;
 import com.library.library.model.User;
 import com.library.library.repository.BookRepository;
 import com.library.library.repository.UserRepository;
-import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
 
-    private final BCryptPasswordEncoder passwordEncoder;
+    //private final BCryptPasswordEncoder passwordEncoder;
 
     public void save(User user) {
         userRepository.save(user);
@@ -29,12 +28,11 @@ public class UserService {
 
     public void register(String username, String password) {
 
-        String passwordHash = passwordEncoder.encode(password);
+        //String passwordHash = passwordEncoder.encode(password);
 
         User newUser = User.builder()
                 .username(username)
-                .passwordHash(passwordHash)
-                .borrowedBooks(new ArrayList<>())
+                .passwordHash(password)
                 .build();
 
         save(newUser);
@@ -75,11 +73,10 @@ public class UserService {
 
     public void deleteUser(Long Id) {
         User user = findById(Id);
-        List<Book> rentedByUser = bookRepository.findByRentedBy(user);
-        rentedByUser.forEach(book -> { book
-                .setBorrowedBy(null);
+        /*List<Book> rentedByUser = bookRepository.findByBorrowedBy(user);
+        rentedByUser.forEach(book -> { //book.setBorrowedBy(null);
                 bookRepository.save(book);
-        });
+        });*/
 
         userRepository.delete(user);
     }

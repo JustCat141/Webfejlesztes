@@ -1,6 +1,7 @@
 package com.library.library.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.library.library.misc.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -22,7 +24,10 @@ public class User {
     @Column(unique = true)
     private String username;
     private String passwordHash;
-    @OneToMany(mappedBy = "rentedBy",fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Book> borrowedBooks;
+    private Set<Book> borrowedBooks;
 }
