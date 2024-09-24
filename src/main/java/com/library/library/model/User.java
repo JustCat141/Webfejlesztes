@@ -17,6 +17,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "USERS")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +28,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<Book> borrowedBooks;
+    @OneToMany(mappedBy = "borrowedBy")
+    private List<Book> borrowedBooks;
 }

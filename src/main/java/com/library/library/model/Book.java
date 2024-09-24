@@ -11,10 +11,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "BOOKS")
 public class Book {
     @Id
     private Long id;
     private String title;
     private String author;
     private Integer releaseYear;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User borrowedBy;
 }

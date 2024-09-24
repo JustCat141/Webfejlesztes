@@ -20,7 +20,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
 
-    //private final BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public void save(User user) {
         userRepository.save(user);
@@ -28,11 +28,11 @@ public class UserService {
 
     public void register(String username, String password) {
 
-        //String passwordHash = passwordEncoder.encode(password);
+        String passwordHash = passwordEncoder.encode(password);
 
         User newUser = User.builder()
                 .username(username)
-                .passwordHash(password)
+                .passwordHash(passwordHash)
                 .build();
 
         save(newUser);

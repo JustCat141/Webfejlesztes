@@ -2,10 +2,12 @@ package com.library.library.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.library.library.misc.RawUser;
 import com.library.library.model.Book;
 import com.library.library.model.User;
 import com.library.library.repository.BookRepository;
 import com.library.library.repository.UserRepository;
+import com.library.library.service.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +25,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InMemoryDatabaseInitializer {
     private final BookRepository bookRepository;
-    private final UserRepository userRepository; // UserRepository for loading users
+    private final UserRepository userRepository;
+
+    private final UserService userService;
 
     @Value("classpath:data/books.json")
     private Resource bookResource;
@@ -36,7 +40,7 @@ public class InMemoryDatabaseInitializer {
         var objectMapper = new ObjectMapper();
 
         var bookType = new TypeReference<List<Book>>() {};
-        var userType = new TypeReference<List<User>>() {}; // Define user type reference
+        var userType = new TypeReference<List<RawUser>>() {}; // Define user type reference
 
         try {
             // Load Books
@@ -46,8 +50,9 @@ public class InMemoryDatabaseInitializer {
 
             // Load Users
             var usersJson = StreamUtils.copyToString(userResource.getInputStream(), StandardCharsets.UTF_8);
-            var users = objectMapper.readValue(usersJson, userType);
-            userRepository.saveAll(users); // Save users to the repository
+            var rawUsers = objectMapper.readValue(usersJson, userType);
+
+            rawUsers.forEach(rawUser -> userService.register(rawUser.getUsername(),rawUser.getPassword()));
 
         } catch (IOException e) {
             log.error("Cannot load data.", e);
