@@ -3,10 +3,12 @@ package com.library.library.data;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.library.library.misc.RawUser;
+import com.library.library.misc.UserRole;
 import com.library.library.model.Book;
 import com.library.library.model.User;
 import com.library.library.repository.BookRepository;
 import com.library.library.repository.UserRepository;
+import com.library.library.service.BookService;
 import com.library.library.service.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ public class InMemoryDatabaseInitializer {
     private final UserRepository userRepository;
 
     private final UserService userService;
+    private final BookService bookService;
 
     @Value("classpath:data/books.json")
     private Resource bookResource;
@@ -52,7 +55,12 @@ public class InMemoryDatabaseInitializer {
             var usersJson = StreamUtils.copyToString(userResource.getInputStream(), StandardCharsets.UTF_8);
             var rawUsers = objectMapper.readValue(usersJson, userType);
 
-            rawUsers.forEach(rawUser -> userService.register(rawUser.getUsername(),rawUser.getPassword()));
+            rawUsers.forEach(rawUser -> userService.register(rawUser.getUsername(),rawUser.getPassword(), rawUser.getRole()));
+
+            // DEV: remove from prod
+            bookService.borrowBook(1L,1L);
+            bookService.borrowBook(1L,2L);
+            bookService.borrowBook(1L,3L);
 
         } catch (IOException e) {
             log.error("Cannot load data.", e);

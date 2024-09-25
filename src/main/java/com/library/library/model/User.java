@@ -22,12 +22,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
+    @Column(nullable = false)
     private String passwordHash;
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToMany(mappedBy = "borrowedBy")
-    private List<Book> borrowedBooks;
+    @OneToMany(mappedBy = "borrowedBy", fetch = FetchType.EAGER)
+    private Set<Book> borrowedBooks;
 }
