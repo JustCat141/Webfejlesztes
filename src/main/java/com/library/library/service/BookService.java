@@ -6,6 +6,8 @@ import com.library.library.repository.BookRepository;
 import com.library.library.repository.UserRepository;
 import com.sun.source.tree.LambdaExpressionTree;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -16,6 +18,9 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 public class BookService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BookService.class);
+
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
 
@@ -33,11 +38,15 @@ public class BookService {
     }
 
     public Book create(String title, String author, Integer releaseYear) {
-        return Book.builder()
+        Book book =  Book.builder()
                 .title(title)
                 .author(author)
                 .releaseYear(releaseYear)
                 .build();
+
+        LOGGER.debug("Book %s created!", title);
+
+        return book;
     }
 
     public void updateBook(Long id, String title, String author, Integer releaseYear) {
@@ -65,7 +74,7 @@ public class BookService {
         Book book = findById(id);
         User user = userRepository.findById(book.getId())
                 .orElseThrow(() -> new RuntimeException("Cannot find user!"));
-        user.getBorrowedBooks().remove(book);
+        //user.getBookLoans().remove(book);
 
         bookRepository.delete(book);
     }
@@ -80,21 +89,23 @@ public class BookService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Cannot find user!"));
 
-        user.getBorrowedBooks().add(book);
-        book.setBorrowedBy(user);
+        //user.getBorrowedBooks().add(book);
+        //book.setBorrowedBy(user);
 
         userRepository.save(user);
         save(book);
+
+
     }
 
     public void returnBook(Long id) {
         Book book = findById(id);
-        User user = book.getBorrowedBy();
+        //User user = book.getBorrowedBy();
 
-        user.getBorrowedBooks().remove(book);
+        //user.getBorrowedBooks().remove(book);
         book.setBorrowedBy(null);
 
         save(book);
-        userRepository.save(user);
+        //userRepository.save(user);
     }
 }

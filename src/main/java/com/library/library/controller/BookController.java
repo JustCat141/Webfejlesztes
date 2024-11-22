@@ -1,7 +1,5 @@
 package com.library.library.controller;
 
-import com.library.library.dto.BookDto;
-import com.library.library.dto.BorrowBookRequestDto;
 import com.library.library.model.Book;
 import com.library.library.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +17,7 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping
-    public ResponseEntity<Book> createBook(@RequestBody BookDto bookDto) {
-        Book book = bookService.create(bookDto.getTitle(), bookDto.getAuthor(), bookDto.getReleaseYear());
+    public ResponseEntity<Book> createBook(@RequestBody Book book) {
         bookService.save(book);
         return new ResponseEntity<>(book, HttpStatus.CREATED);
     }
@@ -38,8 +35,8 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateBook(@PathVariable Long id, @RequestBody BookDto bookDto) {
-        bookService.updateBook(id, bookDto.getTitle(), bookDto.getAuthor(), bookDto.getReleaseYear());
+    public ResponseEntity<Void> updateBook(@PathVariable Long id, @RequestBody Book book) {
+        bookService.updateBook(id, book.getTitle(), book.getAuthor(), book.getReleaseYear());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -47,12 +44,6 @@ public class BookController {
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @PostMapping("/{bookId}/borrow")
-    public ResponseEntity<Void> borrowBook(@PathVariable Long bookId, @RequestBody BorrowBookRequestDto borrowBookRequest) {
-        bookService.borrowBook(borrowBookRequest.getUserId(), bookId);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/{bookId}/return")

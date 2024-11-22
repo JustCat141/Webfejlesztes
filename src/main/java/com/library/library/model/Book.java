@@ -1,27 +1,26 @@
 package com.library.library.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Entity
 @Data
+@With
+@Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "BOOKS")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Book {
     @Id
+    @EqualsAndHashCode.Include
     private Long id;
     private String title;
     private String author;
     private Integer releaseYear;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User borrowedBy;
+    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL)
+    private BookLoan borrowedBy; // Link to BookLoan
 
     public boolean isBorrowed() {
         return borrowedBy != null;
