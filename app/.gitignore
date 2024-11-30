@@ -1,0 +1,35 @@
+# Build output directories
+bin/
+obj/
+wwwroot/
+
+# Package dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# User-specific files
+*.user
+*.suo
+*.csproj.user
+
+# Visual Studio specific files
+.vs/
+*.sln.docstates
+
+# ASP.NET Core development files
+*.db
+*.sqlite
+*.sqlite3
+
+# Coverage reports
+*.coverage
+coverage/
+lcov-report/
+
+# Publish Profiles
+*.Publish.xml
+
+# Rider (JetBrains)
+.idea/
+_ReSharper.Caches/
