@@ -1,54 +1,138 @@
-﻿@page "/library-books"
+﻿@page "/books/library-books"
 
 @using Library.Models
 @using System.Linq;
+@using Library.Services
 
-@inject HttpClient http;
+@inject IBookService bookService
 
-@if (books is null)
+<div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-outline-primary me-2" @onclick="ShowAddBookModal">
+        <i class="bi bi-plus-lg"></i> Add New
+    </button>
+</div>
+
+@if (showModal)
 {
-	<p>Fetching data...</p>
+    <div class="modal-backdrop" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1040;"></div>
+    <div class="modal" style="display:block;position:fixed;top:20%;left:50%;transform:translate(-50%, -20%);z-index:1050;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Book</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModal"></button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="newBook" OnValidSubmit="AddBook">
+                        <DataAnnotationsValidator />
+
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" @bind="newBook.Title" />
+                            <ValidationMessage For="@(() => newBook.Title)" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Author</label>
+                            <input type="text" class="form-control" @bind="newBook.Author" />
+                            <ValidationMessage For="@(() => newBook.Author)" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Publication Year</label>
+                            <input type="number" class="form-control" @bind="newBook.PublicationYear" />
+                            <ValidationMessage For="@(() => newBook.PublicationYear)" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @onclick="CloseModal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
 }
-else
-{
-	<table class="table">
-		<thead>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Author</th>
+			<th>Publication Year</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (books is null)
+		{
 			<tr>
-				<th>ID</th>
-				<th>Title</th>
-				<th>Author</th>
-				<th>Publication Year</th>
-				<th>Available</th>
-			</tr>
-		</thead>
-		<tbody>
+                <td colspan="4">
+                    <LoadingSpinner Message="Fetching data, please wait..."/>
+                </td>
+            </tr>
+        }
+        else if (books is not null && !books.Any())
+        {
+            <tr>
+                <td colspan="4" class="text-center">
+                    No books available.
+                </td>
+            </tr>
+        }
+        else 
+		{
 			@foreach (var book in books)
 			{
 				<tr>
-					<td>@book.Id</td>
-					<td>@book.Title</td>
-					<td>@book.Author</td>
-					<td>@book.PublicationYear</td>
-					<td>@(!book.IsLoaned.Value ? "Yes" : "No")</td>
-				</tr>
+                    <td>@book.Title</td>
+                    <td>@book.Author</td>
+                    <td>@book.PublicationYear</td>
+                    <td>
+                        <a class="btn btn-primary" title="Edit book" href="books/edit/@book.Id">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a class="btn btn-outline-danger" title="Delete book">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
 			}
-		</tbody>
-	</table>	
-}
+		}
+	</tbody>
+</table>	
 
 @code {
-	private IEnumerable<Book>? books { get; set; }
 
-	protected override async Task OnInitializedAsync()
-	{
-		await LoadSampleDataAsync();
-	}
+    private bool showModal = false;
+    private Book newBook = new Book();
+    private IEnumerable<Book>? books { get; set; }
 
-	private async Task LoadSampleDataAsync()
-	{
-		books = await http.GetFromJsonAsync<IEnumerable<Book>>("sample-data/books.json");
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadSampleDataAsync();
+    }
 
-		if (books is not null)
-			books.ToList().ForEach(book => book.IsLoaned = false);
-	}
+    private async Task LoadSampleDataAsync()
+    {
+        books = await bookService.GetAllBooksAsync();
+
+        if (books is not null)
+            books.ToList().ForEach(book => book.IsLoaned = false);
+    }
+
+    private void ShowAddBookModal()
+    {
+        newBook = new Book();
+        showModal = true;
+    }
+
+    private void CloseModal()
+    {
+        showModal = false;
+    }
+
+    private void AddBook()
+    {
+        newBook.Id = books.Count() + 1;
+        CloseModal();
+    }
 }

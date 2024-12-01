@@ -2,9 +2,9 @@
 {
     public class Loan
     {
-        public long Id { get; set; }
-        public long MemberId { get; set; }
-        public long BookId { get; set; }
+        public int Id { get; set; }
+        public int MemberId { get; set; }
+        public int BookId { get; set; }
 
         public LoanState State { get; set; }
         

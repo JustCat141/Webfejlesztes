@@ -1,0 +1,30 @@
+﻿@page "/books/edit/{id:int}"
+
+@using Library.Models
+@using Library.Services
+
+@inject IBookService bookService
+
+@if (book is null)
+{
+	<PageTitle>Loading...</PageTitle>
+	<LoadingSpinner Message="Loading..."/>
+}
+else
+{
+	<PageTitle>@(book.Title) details</PageTitle>
+	<h1>@(book.Title) details</h1>
+}
+
+@code {
+
+	[Parameter]
+	public int Id { get; set; }
+
+	private Book? book { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		var books = await bookService.GetBookByIdAsync(Id);
+	}
+}
