@@ -1,5 +1,10 @@
-﻿@page "/members"
+﻿@page "/member/library-members"
+
 @using Library.Models
+@using Library.Services
+
+@inject IMemberService memberService
+@inject NavigationManager navManager
 
 <PageTitle>Library - Members</PageTitle>
 
@@ -38,7 +43,12 @@
                             <ValidationMessage For="@(() => newMember.LastName)" />
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Date of birth</label>
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control" @bind="newMember.Email" />
+                            <ValidationMessage For="@(() => newMember.Email)" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Date of Birth</label>
                             <input type="date" class="form-control" @bind="newMember.BirthDate" />
                             <ValidationMessage For="@(() => newMember.BirthDate)" />
                         </div>
@@ -54,10 +64,70 @@
     </div>
 }
 
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email Address</th>
+            <th>Age</th>
+            <th>Date of Birth</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (members is null)
+        {
+            <tr>
+                <td colspan="4" class="text-center">
+                    <LoadingSpinner Message="Fetching data, please wait..."/>
+                </td>
+            </tr>
+        
+        }
+        else if (members is not null && !members.Any())
+        {
+            <tr>
+                <td colspan="4" class="text-center">
+                    Nothing to see here.
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var member in members)
+            {
+                <tr>
+                    <td>
+                        <a href="/member/details/@member.Id" class="text-decoration-none" title="Show @(member.FullName) details">@member.FullName</a>
+                    </td>
+                    <td>@member.Email</td>
+                    <td>@member.Age</td>
+                    <td>@member.BirthDate.ToShortDateString()</td>
+                    <td>
+                        <a class="btn btn-primary" title="Edit @member.FullName's data" href="member/edit/@member.Id">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a class="btn btn-outline-danger" title="Delete member">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
 @code {
     private bool showModal = false;
 
+    private IEnumerable<Member>? members { get; set; }
+
     private Member newMember;
+
+    protected override async Task OnInitializedAsync()
+    {
+        members = await memberService.GetAllMembersAsync(); 
+    }
 
     private void AddMember()
     {

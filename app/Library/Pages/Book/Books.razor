@@ -5,6 +5,7 @@
 @using Library.Services
 
 @inject IBookService bookService
+@inject NavigationManager navManager
 
 <PageTitle>Books</PageTitle>
 
@@ -114,7 +115,7 @@
     private bool showModal = false;
 
     private IEnumerable<Book>? books { get; set; }
-    
+
     private Book newBook;
 
     protected override async Task OnInitializedAsync()
@@ -138,9 +139,10 @@
         showModal = false;
     }
 
-    private void AddBook()
+    private async Task AddBook()
     {
         newBook.Id = int.MinValue;
-        CloseModal();
+        await bookService.AddBookAsync(newBook);
+        StateHasChanged();
     }
 }

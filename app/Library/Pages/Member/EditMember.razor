@@ -1,0 +1,60 @@
+﻿@page "/member/edit/{id:int}"
+
+@using Library.Models
+@using Library.Services
+
+@inject NavigationManager navManager
+@inject IMemberService memberService
+
+@if (member is null)
+{
+	<PageTitle>Loading...</PageTitle>
+	<LoadingSpinner Message="Loading..."/>
+}
+else
+{
+	<PageTitle>Edit @(member.FullName)'s details</PageTitle>
+	<h3>Edit <b>@(member.FullName)</b>'s details</h3>
+
+	<EditForm Model="member" OnValidSubmit="Save">
+        <DataAnnotationsValidator />
+
+        <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-control" @bind="member.FirstName" />
+            <ValidationMessage For="@(() => member.FirstName)" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-control" @bind="member.LastName" />
+            <ValidationMessage For="@(() => member.LastName)" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-control" @bind="member.Email" />
+            <ValidationMessage For="@(() => member.Email)" />
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="/member/details/@member.Id" class="btn btn-secondary">Cancel</a>
+        </div>
+    </EditForm>
+}
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private Member? member { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        member = await memberService.GetMemberByIdAsync(Id);
+    }
+
+    private void Save()
+    {
+        navManager.NavigateTo($"/book/details/{member.Id}");
+    }
+}
