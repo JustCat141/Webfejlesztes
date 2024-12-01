@@ -1,0 +1,70 @@
+﻿@page "/loan/library-loans/{text}"
+
+@using Library.Models
+@using Library.Services
+
+@inject ILoanService loanService
+
+<header>
+    <h3 class="fw-bold">Library Loans</h3>
+    <div class="d-flex justify-content-end mb-3">
+        <a href="/loan/library-loans/none" class="btn btn-outline-primary me-2">
+            All Loans
+        </a>
+        <a href="/loan/library-loans/active" class="btn btn-outline-primary me-2">
+            Active Loans
+        </a>
+        <a href="/loan/library-loans/late-returned" class="btn btn-outline-primary me-2">
+            Late Returned Loans
+        </a>
+        <a href="/loan/library-loans/not-returned" class="btn btn-outline-primary me-2">
+            Not Returned Loans
+        </a>
+        <a href="/loan/library-loans/returned" class="btn btn-outline-primary me-2">
+            Returned Loans
+        </a>
+    </div>
+</header>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>State</th>
+            <th>Book</th>
+            <th>Loaned By</th>
+            <th>Return Deadline</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (loans is null)
+		{
+			<tr>
+                <td colspan="6">
+                    <LoadingSpinner Message="Fetching data, please wait..."/>
+                </td>
+            </tr>
+        }
+        else if (loans is not null && !loans.Any())
+        {
+            <tr>
+                <td colspan="6" class="text-center">
+                    Nothing to see here.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public string? Text { get; set; }
+
+    private IEnumerable<Loan>? loans { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        loans = 
+    }
+}

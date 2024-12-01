@@ -16,6 +16,9 @@
         <button class="btn btn-outline-primary me-2" @onclick="ShowAddBookModal">
             <i class="bi bi-plus-lg"></i> Add New
         </button>
+        <a href="/loan/library-loans/none" class="btn btn-outline-primary me-2">
+            View Loans
+        </a>
     </div>
 </header>
 
@@ -82,7 +85,7 @@
         {
             <tr>
                 <td colspan="4" class="text-center">
-                    No books available.
+                    Nothing to see here.
                 </td>
             </tr>
         }
@@ -96,7 +99,7 @@
                     </td>
                     <td>@book.Author</td>
                     <td>@book.PublicationYear</td>
-                    <td>
+                    <td d-flex justify-content-end>
                         <a class="btn btn-primary" title="Edit book" href="book/edit/@book.Id">
                             <i class="bi bi-pencil-square"></i>
                         </a>

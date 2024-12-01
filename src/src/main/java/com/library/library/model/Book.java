@@ -3,26 +3,24 @@ package com.library.library.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Data
-@With
 @Entity
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "BOOKS")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Book {
+public class Book extends ObjectModel {
     @Id
     @EqualsAndHashCode.Include
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected int id;
+
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private String author;
-    private Integer releaseYear;
 
-    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL)
-    private BookLoan borrowedBy; // Link to BookLoan
+    @Column(nullable = false)
+    private Integer publicationYear;
 
-    public boolean isBorrowed() {
-        return borrowedBy != null;
-    }
+    @ManyToOne
+    private Loan loans;
 }

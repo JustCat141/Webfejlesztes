@@ -1,5 +1,60 @@
-﻿<h3>MemberDetails</h3>
+﻿@page "/member/details/{id:int}"
+
+@using Library.Models
+@using Library.Services
+
+@inject IMemberService memberService
+
+@if (member is null)
+{
+	<LoadingSpinner Message="Loading..."/>
+	<PageTitle>Loading...</PageTitle>
+}
+else
+{
+	<PageTitle>@(member.FullName)'s details</PageTitle>
+	
+	<h3>@(member.FullName)'s details</h3>
+
+	<table class="h5 table table-bordered">
+		<ObjectDetails Model="member"/>
+
+		<tr>
+			<th class="small text-muted pr-2" scope="row">First Name</th>
+			<td>@member.FirstName</td>
+		</tr>
+		<tr>
+			<th class="small text-muted pr-2" scope="row">Last Name</th>
+			<td>@member.LastName</td>
+		</tr>
+		<tr>
+			<th class="small text-muted pr-2" scope="row">Email Address</th>
+			<td>@member.Email</td>
+		</tr>
+		<tr>
+			<th class="small text-muted pr-2" scope="row">Age</th>
+			<td>@member.Age</td>
+		</tr>
+		<tr>
+			<th class="small text-muted pr-2" scope="row">Date of Birth</th>
+			<td>@member.BirthDate.ToShortDateString()</td>
+		</tr>
+	</table>
+
+	<div class="modal-footer">
+		<a href="/member/edit/@member.Id" class="btn btn-primary">Edit</a>
+		<a href="/member/library-members" class="btn btn-secondary">Back</a>
+    </div>
+}
 
 @code {
+	[Parameter]
+	public int Id { get; set; }
 
+	private Member? member { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		member = await memberService.GetMemberByIdAsync(Id);
+	}
 }

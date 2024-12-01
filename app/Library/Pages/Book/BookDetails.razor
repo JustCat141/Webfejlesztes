@@ -16,11 +16,8 @@ else
 	
 	<h3>@(book.Title) details</h3>
 
-	<table class="h5">
-		<tr>
-			<th class="small text-muted pr-2" scope="row">Inventory ID</th>
-			<td>@book.Id</td>
-		</tr>
+	<table class="h5 table table-bordered">
+		<ObjectDetails Model="book"/>
 		<tr>
 			<th class="small text-muted pr-2" scope="row">Title</th>
 			<td>@book.Title</td>
@@ -32,14 +29,6 @@ else
 		<tr>
 			<th class="small text-muted pr-2" scope="row">Publication Year</th>
 			<td>@book.PublicationYear</td>
-		</tr>
-		<tr>
-			<th class="small text-muted pr-2" scope="row">Created At</th>
-			<td>@book.CreatedDate.ToShortDateString()</td>
-		</tr>
-		<tr>
-			<th class="small text-muted pr-2" scope="row">Last Modified</th>
-			<td>@book.LastUpdateDate.ToShortDateString()</td>
 		</tr>
 	</table>
 
