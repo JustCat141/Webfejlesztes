@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "title": "Az ember tragédiája",
+    "author": "Madách Imre",
+    "publicationYear": 1861
+  },
+  {
+    "id": 2,
+    "title": "A Pál utcai fiúk",
+    "author": "Molnár Ferenc",
+    "publicationYear": 1906
+  },
+  {
+    "id": 3,
+    "title": "Egri csillagok",
+    "author": "Gárdonyi Géza",
+    "publicationYear": 1901
+  },
+  {
+    "id": 4,
+    "title": "Tüskevár",
+    "author": "Fekete István",
+    "publicationYear": 1957
+  },
+  {
+    "id": 5,
+    "title": "A kőszívű ember fiai",
+    "author": "Jókai Mór",
+    "publicationYear": 1869
+  },
+  {
+    "id": 6,
+    "title": "1984",
+    "author": "George Orwell",
+    "publicationYear": 1949
+  },
+  {
+    "id": 7,
+    "title": "A nagy Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "publicationYear": 1925
+  },
+  {
+    "id": 8,
+    "title": "A Mester és Margarita",
+    "author": "Mihail Bulgakov",
+    "publicationYear": 1967
+  },
+  {
+    "id": 9,
+    "title": "Metro 2033",
+    "author": "Dmitry Glukhovsky",
+    "publicationYear": 2005
+  },
+  {
+    "id": 10,
+    "title": "Metro 2034",
+    "author": "Dmitry Glukhovsky",
+    "publicationYear": 2009
+  },
+  {
+    "id": 11,
+    "title": "Metro 2035",
+    "author": "Dmitry Glukhovsky",
+    "publicationYear": 2015
+  },
+  {
+    "id": 12,
+    "title": "Fahrenheit 451",
+    "author": "Ray Bradbury",
+    "publicationYear": 1953
+  },
+  {
+    "id": 13,
+    "title": "Brave New World",
+    "author": "Aldous Huxley",
+    "publicationYear": 1932
+  },
+  {
+    "id": 14,
+    "title": "A kis herceg",
+    "author": "Antoine de Saint-Exupéry",
+    "publicationYear": 1943
+  },
+  {
+    "id": 15,
+    "title": "A harry potter és a bölcsek köve",
+    "author": "J.K. Rowling",
+    "publicationYear": 1997
+  }
+]
