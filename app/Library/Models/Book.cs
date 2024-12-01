@@ -3,10 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Library.Models
 {
-    public class Book
+    public class Book : ObjectModel
     {
-        public int Id { get; set; }
-
         [Required(ErrorMessage = "Title is required.")]
         public string Title { get; set; }
 
@@ -16,9 +14,7 @@ namespace Library.Models
         [Range(0, 9999, ErrorMessage = "Please enter a valid year.")]
         public int PublicationYear { get; set; }
 
-        public bool? IsLoaned { get; set; }
-
-        public Book()
+        public Book() : base()
         {
             PublicationYear = DateTime.Now.Year;
         }

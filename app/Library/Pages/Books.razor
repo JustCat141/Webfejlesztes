@@ -1,4 +1,4 @@
-﻿@page "/books/library-books"
+﻿@page "/book/library-books"
 
 @using Library.Models
 @using System.Linq;
@@ -6,11 +6,18 @@
 
 @inject IBookService bookService
 
-<div class="d-flex justify-content-end mb-3">
-    <button class="btn btn-outline-primary me-2" @onclick="ShowAddBookModal">
-        <i class="bi bi-plus-lg"></i> Add New
-    </button>
-</div>
+<PageTitle>Books</PageTitle>
+
+
+<header>
+    <h3 class="fw-bold">Library Books</h3>
+    <div class="d-flex justify-content-end mb-3">
+        <button class="btn btn-outline-primary me-2" @onclick="ShowAddBookModal">
+            <i class="bi bi-plus-lg"></i> Add New
+        </button>
+    </div>
+</header>
+
 
 @if (showModal)
 {
@@ -19,7 +26,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add New Book</h5>
+                    <h5 class="modal-title">Create New Book</h5>
                     <button type="button" class="btn-close" @onclick="CloseModal"></button>
                 </div>
                 <div class="modal-body">
@@ -42,8 +49,8 @@
                             <ValidationMessage For="@(() => newBook.PublicationYear)" />
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" @onclick="CloseModal">Cancel</button>
                             <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-secondary" @onclick="CloseModal">Cancel</button>
                         </div>
                     </EditForm>
                 </div>
@@ -83,11 +90,13 @@
 			@foreach (var book in books)
 			{
 				<tr>
-                    <td>@book.Title</td>
+                    <td>
+                        <a href="/book/details/@book.Id" class="text-decoration-none" title="Show @(book.Title) details">@book.Title</a>
+                    </td>
                     <td>@book.Author</td>
                     <td>@book.PublicationYear</td>
                     <td>
-                        <a class="btn btn-primary" title="Edit book" href="books/edit/@book.Id">
+                        <a class="btn btn-primary" title="Edit book" href="book/edit/@book.Id">
                             <i class="bi bi-pencil-square"></i>
                         </a>
                         <a class="btn btn-outline-danger" title="Delete book">
@@ -103,8 +112,10 @@
 @code {
 
     private bool showModal = false;
-    private Book newBook = new Book();
+
     private IEnumerable<Book>? books { get; set; }
+    
+    private Book newBook;
 
     protected override async Task OnInitializedAsync()
     {
@@ -114,9 +125,6 @@
     private async Task LoadSampleDataAsync()
     {
         books = await bookService.GetAllBooksAsync();
-
-        if (books is not null)
-            books.ToList().ForEach(book => book.IsLoaned = false);
     }
 
     private void ShowAddBookModal()
@@ -132,7 +140,7 @@
 
     private void AddBook()
     {
-        newBook.Id = books.Count() + 1;
+        newBook.Id = int.MinValue;
         CloseModal();
     }
 }

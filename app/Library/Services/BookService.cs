@@ -16,10 +16,10 @@ namespace Library.Services
             await _httpClient.GetFromJsonAsync<IEnumerable<Book>?>("sample-data/books.json");
 
         // TODO
-        public async Task<Book> GetBookByIdAsync(int id)
+        public async Task<Book?> GetBookByIdAsync(int id)
         {
             var books = await GetAllBooksAsync();
-            return books.First(book => book.Id == id);
+            return books?.First(book => book.Id.Equals(id));
         }
 
         // TODO

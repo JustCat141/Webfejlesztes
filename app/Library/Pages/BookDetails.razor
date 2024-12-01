@@ -1,5 +1,62 @@
-﻿<h3>BookDetails</h3>
+﻿@page "/book/details/{id:int}"
+
+@using Library.Models
+@using Library.Services
+
+@inject IBookService bookService
+
+@if (book is null)
+{
+	<LoadingSpinner Message="Loading..."/>
+	<PageTitle>Loading...</PageTitle>
+}
+else
+{
+	<PageTitle>@(book.Title)'s details</PageTitle>
+	
+	<h3>@(book.Title) details</h3>
+
+	<table class="h5">
+		<tr>
+			<th class="small text-muted pr-2" scope="row">Inventory ID</th>
+			<td>@book.Id</td>
+		</tr>
+		<tr>
+			<th class="small text-muted pr-2" scope="row">Title</th>
+			<td>@book.Title</td>
+		</tr>
+		<tr>
+			<th class="small text-muted pr-2" scope="row">Author</th>
+			<td>@book.Author</td>
+		</tr>
+		<tr>
+			<th class="small text-muted pr-2" scope="row">Publication Year</th>
+			<td>@book.PublicationYear</td>
+		</tr>
+		<tr>
+			<th class="small text-muted pr-2" scope="row">Created At</th>
+			<td>@book.CreatedDate.ToShortDateString()</td>
+		</tr>
+		<tr>
+			<th class="small text-muted pr-2" scope="row">Last Modified</th>
+			<td>@book.LastUpdateDate.ToShortDateString()</td>
+		</tr>
+	</table>
+
+	<div class="modal-footer">
+		<a href="/book/edit/@book.Id" class="btn btn-primary">Edit</a>
+		<a href="/book/library-books" class="btn btn-secondary">Back</a>
+    </div>
+}
 
 @code {
+	[Parameter]
+	public int Id { get; set; }
 
+	private Book? book { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		book = await bookService.GetBookByIdAsync(Id);
+	}
 }
