@@ -28,6 +28,8 @@ public class Member extends ObjectModel {
     @Column(nullable = false)
     private OffsetDateTime birthDate;
 
+    /*
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Loan> bookLoans = new ArrayList<>(); // User's loans
+    private List<Loan> bookLoans = new ArrayList<>();
+    */
 }

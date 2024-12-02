@@ -21,6 +21,8 @@ public class Book extends ObjectModel {
     @Column(nullable = false)
     private Integer publicationYear;
 
+    /*
     @ManyToOne
     private Loan loans;
+    */
 }
