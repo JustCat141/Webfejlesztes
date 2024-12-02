@@ -11,21 +11,19 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CommonMemberService {
+public class CommonMemberService implements CommonService<Member> {
 
     private final MemberRepository repository;
 
+    @Override
     public List<Member> findAll() {
         return repository.findAll();
     }
 
+    @Override
     public Member findById(int id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cannot find library member!"));
-    }
-
-    public void save(Member member) {
-        repository.save(member);
     }
 
     public void create(String firstName, String lastName, String email, OffsetDateTime birthDate) {
@@ -39,14 +37,16 @@ public class CommonMemberService {
                 .lastUpdateDate(OffsetDateTime.now())
                 .build();
 
-        save(newMember);
+        repository.save(newMember);
     }
 
+    @Override
     public Member update(Member member) {
         member.setLastUpdateDate(OffsetDateTime.now());
         return repository.save(member);
     }
 
+    @Override
     public void delete(Member member) {
         repository.deleteById(member.getId());
     }
