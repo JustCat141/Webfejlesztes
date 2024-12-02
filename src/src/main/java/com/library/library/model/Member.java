@@ -1,14 +1,22 @@
 package com.library.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-@Entity
-@Table(name = "USERS")
+@Data
+@With
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity(name = "USERS")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Member extends ObjectModel {
     @Id
@@ -28,8 +36,8 @@ public class Member extends ObjectModel {
     @Column(nullable = false)
     private OffsetDateTime birthDate;
 
-    /*
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Loan> bookLoans = new ArrayList<>();
-    */
+    @JsonIgnore
+    @NotNull
+    @OneToMany(mappedBy = "borrowedBy")
+    private Set<Loan> loans;
 }

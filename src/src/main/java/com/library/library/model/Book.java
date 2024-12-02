@@ -1,10 +1,18 @@
 package com.library.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@Entity
-@Table(name = "BOOKS")
+import java.util.Set;
+
+@Data
+@With
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity(name = "BOOKS")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Book extends ObjectModel {
     @Id
@@ -21,8 +29,8 @@ public class Book extends ObjectModel {
     @Column(nullable = false)
     private Integer publicationYear;
 
-    /*
-    @ManyToOne
-    private Loan loans;
-    */
+    @JsonIgnore
+    @ToString.Exclude
+    @OneToMany(mappedBy = "book")
+    private Set<Loan> loans;
 }

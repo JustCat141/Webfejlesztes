@@ -2,13 +2,17 @@ package com.library.library.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-
-@Entity
-@Table(name = "BOOK_LOANS")
+@Data
+@With
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity(name = "BOOK_LOANS")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Loan extends ObjectModel{
     @Id
@@ -19,7 +23,7 @@ public class Loan extends ObjectModel{
     @ManyToOne
     private Member borrowedBy;
 
-    @OneToOne
+    @ManyToOne
     private Book book;
 
     @Column(nullable = false)

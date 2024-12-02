@@ -1,12 +1,12 @@
 package com.library.library.model;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.OffsetDateTime;
 
 @Data
-@With
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ObjectModel {
