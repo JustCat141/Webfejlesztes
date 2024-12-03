@@ -27,15 +27,15 @@ public class CommonMemberService implements CommonService<Member> {
                 .orElseThrow(() -> new RuntimeException("Cannot find library member!"));
     }
 
-    public Member create(String firstName, String lastName, String email, LocalDateTime birthDate) {
+    public Member create(String firstName, String lastName, String email, OffsetDateTime birthDate) {
         Member newMember = Member.builder()
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)
                 .birthDate(birthDate)
                 .loans(new HashSet<>())
-                .createdDate(LocalDateTime.now())
-                .lastUpdateDate(LocalDateTime.now())
+                .createdDate(OffsetDateTime.now())
+                .lastUpdateDate(OffsetDateTime.now())
                 .build();
 
         return repository.save(newMember);
@@ -43,7 +43,7 @@ public class CommonMemberService implements CommonService<Member> {
 
     @Override
     public Member update(Member member) {
-        member.setLastUpdateDate(LocalDateTime.now());
+        member.setLastUpdateDate(OffsetDateTime.now());
         return repository.save(member);
     }
 

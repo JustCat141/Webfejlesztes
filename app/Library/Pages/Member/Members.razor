@@ -102,7 +102,7 @@
                     </td>
                     <td>@member.Email</td>
                     <td>@member.Age</td>
-                    <td>@member.BirthDate.ToShortDateString()</td>
+                    <td>@member.BirthDate.ToString("yyyy.MMMM.dd")</td>
                     <td>
                         <a class="btn btn-primary" title="Edit @member.FullName's data" href="member/edit/@member.Id">
                             <i class="bi bi-pencil-square"></i>
@@ -129,8 +129,9 @@
         members = await memberService.GetAllMembersAsync(); 
     }
 
-    private void AddMember()
+    private async void AddMember()
     {
+        await memberService.CreateMemberAsync(newMember);
         CloseModal();
     }
 

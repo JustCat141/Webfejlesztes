@@ -16,7 +16,7 @@ namespace Library.Models
 
         public Book() : base()
         {
-            PublicationYear = DateTime.Now.Year;
+            PublicationYear = DateTimeOffset.Now.Year;
         }
     }
 }

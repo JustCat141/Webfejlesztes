@@ -35,7 +35,7 @@ public class Member extends ObjectModel {
     private String email;
 
     @Column(nullable = false)
-    private LocalDateTime birthDate;
+    private OffsetDateTime birthDate;
 
     @JsonIgnore
     @NotNull

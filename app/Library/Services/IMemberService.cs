@@ -12,6 +12,6 @@ namespace Library.Services
 
         Task DeleteMemberAsync(Member member);
 
-        Task AddMemberAsync(Member member);
+        Task CreateMemberAsync(Member member);
     }
 }

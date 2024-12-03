@@ -18,38 +18,16 @@ namespace Library.Models
 
         [Required(ErrorMessage = "Date of birth is required.")]
         [DataType(DataType.Date)]
-        [CustomValidation(typeof(Member), nameof(ValidateBirthDate))]
-        public DateTime BirthDate { get; set; }
+        public DateTimeOffset BirthDate { get; set; }
 
         public int Age =>
-            DateTime.Today.Year - BirthDate.Year - (
-                DateTime.Today < BirthDate.AddYears(
-                    DateTime.Today.Year - BirthDate.Year
-                    ) ? 1 : 0);
+          DateTimeOffset.Now.Year - BirthDate.Year - (
+              DateTimeOffset.Now.Date < BirthDate.AddYears(DateTimeOffset.Now.Year - BirthDate.Year).Date
+              ? 1 : 0);
 
         public Member() : base()
         {
-            BirthDate = DateTime.Today;
-        }
-
-        public static ValidationResult ValidateBirthDate(DateTime birthDate, ValidationContext context)
-        {
-            if (birthDate > DateTime.Today)
-            {
-                return new ValidationResult("Birth date cannot be in the future.");
-            }
-
-            int age = DateTime.Today.Year - birthDate.Year - (
-                DateTime.Today < birthDate.AddYears(
-                    DateTime.Today.Year - birthDate.Year
-                ) ? 1 : 0);
-
-            if (age < MINIMUM_MEMBER_AGE)
-            {
-                return new ValidationResult($"Members must be at least {MINIMUM_MEMBER_AGE} years old.");
-            }
-
-            return ValidationResult.Success;
+            BirthDate = DateTimeOffset.Now;
         }
     }
 }

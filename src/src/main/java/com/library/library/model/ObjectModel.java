@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @SuperBuilder
@@ -15,8 +16,8 @@ import java.time.LocalDateTime;
 public class ObjectModel {
 
     @Column(nullable = false, updatable = false)
-    protected LocalDateTime createdDate;
+    protected OffsetDateTime createdDate;
 
     @Column(nullable = false)
-    protected LocalDateTime lastUpdateDate;
+    protected OffsetDateTime lastUpdateDate;
 }

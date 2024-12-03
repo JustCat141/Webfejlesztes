@@ -34,7 +34,7 @@ public class CommonLoanService implements CommonService<Loan>{
 
     @Override
     public Loan update(Loan obj) {
-        obj.setLastUpdateDate(LocalDateTime.now());
+        obj.setLastUpdateDate(OffsetDateTime.now());
         return repository.save(obj);
     }
 

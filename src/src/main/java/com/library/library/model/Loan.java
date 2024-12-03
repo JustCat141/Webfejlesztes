@@ -28,8 +28,8 @@ public class Loan extends ObjectModel{
     private Book book;
 
     @Column(nullable = false)
-    private LocalDateTime loanDate;
+    private OffsetDateTime loanDate;
 
     @Column(nullable = false)
-    private LocalDateTime returnDueDate;
+    private OffsetDateTime returnDueDate;
 }

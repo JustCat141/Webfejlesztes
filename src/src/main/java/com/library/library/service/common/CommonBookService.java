@@ -33,8 +33,8 @@ public class CommonBookService implements CommonService<Book> {
                 .author(author)
                 .publicationYear(publicationYear)
                 .loan(null)
-                .createdDate(LocalDateTime.now())
-                .lastUpdateDate(LocalDateTime.now())
+                .createdDate(OffsetDateTime.now())
+                .lastUpdateDate(OffsetDateTime.now())
                 .build();
 
         return repository.save(book);
@@ -42,7 +42,7 @@ public class CommonBookService implements CommonService<Book> {
 
     @Override
     public Book update(Book obj) {
-        obj.setLastUpdateDate(LocalDateTime.now());
+        obj.setLastUpdateDate(OffsetDateTime.now());
         return repository.save(obj);
     }
 

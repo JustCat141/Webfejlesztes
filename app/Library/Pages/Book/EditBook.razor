@@ -55,7 +55,7 @@ else
 
     private void Save()
     {
-        book.LastUpdateDate = DateTime.Now;
+        book.LastUpdateDate = DateTimeOffset.Now;
 
         navManager.NavigateTo($"/book/details/{book.Id}");
     }

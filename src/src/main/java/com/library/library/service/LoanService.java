@@ -35,7 +35,7 @@ public class LoanService {
             throw new RuntimeException("Book is already loaned by someone else!");
         }
 
-        var today = LocalDateTime.now();
+        var today = OffsetDateTime.now();
         var returnDate = today.plusMonths(2);
 
         Loan newLoan = Loan.builder()
