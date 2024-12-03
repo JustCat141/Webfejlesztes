@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -27,8 +28,8 @@ public class Loan extends ObjectModel{
     private Book book;
 
     @Column(nullable = false)
-    private OffsetDateTime loanDate;
+    private LocalDateTime loanDate;
 
     @Column(nullable = false)
-    private OffsetDateTime returnDueDate;
+    private LocalDateTime returnDueDate;
 }

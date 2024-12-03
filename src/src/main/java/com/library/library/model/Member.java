@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class Member extends ObjectModel {
     private String email;
 
     @Column(nullable = false)
-    private OffsetDateTime birthDate;
+    private LocalDateTime birthDate;
 
     @JsonIgnore
     @NotNull

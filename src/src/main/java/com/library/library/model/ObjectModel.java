@@ -5,7 +5,7 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Data
 @SuperBuilder
@@ -15,8 +15,8 @@ import java.time.OffsetDateTime;
 public class ObjectModel {
 
     @Column(nullable = false, updatable = false)
-    protected OffsetDateTime createdDate;
+    protected LocalDateTime createdDate;
 
     @Column(nullable = false)
-    protected OffsetDateTime lastUpdateDate;
+    protected LocalDateTime lastUpdateDate;
 }

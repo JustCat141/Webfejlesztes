@@ -9,6 +9,7 @@ import com.library.library.service.common.CommonMemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class LoanService {
             throw new RuntimeException("Book is already loaned by someone else!");
         }
 
-        var today = OffsetDateTime.now();
+        var today = LocalDateTime.now();
         var returnDate = today.plusMonths(2);
 
         Loan newLoan = Loan.builder()

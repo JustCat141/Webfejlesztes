@@ -5,6 +5,7 @@ import com.library.library.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -26,15 +27,15 @@ public class CommonMemberService implements CommonService<Member> {
                 .orElseThrow(() -> new RuntimeException("Cannot find library member!"));
     }
 
-    public Member create(String firstName, String lastName, String email, OffsetDateTime birthDate) {
+    public Member create(String firstName, String lastName, String email, LocalDateTime birthDate) {
         Member newMember = Member.builder()
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)
                 .birthDate(birthDate)
                 .loans(new HashSet<>())
-                .createdDate(OffsetDateTime.now())
-                .lastUpdateDate(OffsetDateTime.now())
+                .createdDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
                 .build();
 
         return repository.save(newMember);
@@ -42,7 +43,7 @@ public class CommonMemberService implements CommonService<Member> {
 
     @Override
     public Member update(Member member) {
-        member.setLastUpdateDate(OffsetDateTime.now());
+        member.setLastUpdateDate(LocalDateTime.now());
         return repository.save(member);
     }
 

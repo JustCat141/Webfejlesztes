@@ -7,6 +7,7 @@ import com.library.library.repository.LoanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class CommonLoanService implements CommonService<Loan>{
 
     @Override
     public Loan update(Loan obj) {
-        obj.setLastUpdateDate(OffsetDateTime.now());
+        obj.setLastUpdateDate(LocalDateTime.now());
         return repository.save(obj);
     }
 

@@ -5,6 +5,7 @@ import com.library.library.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -32,8 +33,8 @@ public class CommonBookService implements CommonService<Book> {
                 .author(author)
                 .publicationYear(publicationYear)
                 .loan(null)
-                .createdDate(OffsetDateTime.now())
-                .lastUpdateDate(OffsetDateTime.now())
+                .createdDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
                 .build();
 
         return repository.save(book);
@@ -41,7 +42,7 @@ public class CommonBookService implements CommonService<Book> {
 
     @Override
     public Book update(Book obj) {
-        obj.setLastUpdateDate(OffsetDateTime.now());
+        obj.setLastUpdateDate(LocalDateTime.now());
         return repository.save(obj);
     }
 
