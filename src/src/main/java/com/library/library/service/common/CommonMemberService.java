@@ -26,7 +26,7 @@ public class CommonMemberService implements CommonService<Member> {
                 .orElseThrow(() -> new RuntimeException("Cannot find library member!"));
     }
 
-    public void create(String firstName, String lastName, String email, OffsetDateTime birthDate) {
+    public Member create(String firstName, String lastName, String email, OffsetDateTime birthDate) {
         Member newMember = Member.builder()
                 .firstName(firstName)
                 .lastName(lastName)
@@ -37,7 +37,7 @@ public class CommonMemberService implements CommonService<Member> {
                 .lastUpdateDate(OffsetDateTime.now())
                 .build();
 
-        repository.save(newMember);
+        return repository.save(newMember);
     }
 
     @Override

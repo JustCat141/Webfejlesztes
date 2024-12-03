@@ -26,17 +26,17 @@ public class CommonBookService implements CommonService<Book> {
                 .orElseThrow(() -> new RuntimeException("Cannot find library book!"));
     }
 
-    public void create(String title, String author, int publicationYear) {
+    public Book create(String title, String author, int publicationYear) {
         Book book = Book.builder()
                 .title(title)
                 .author(author)
                 .publicationYear(publicationYear)
-                .loans(new HashSet<>())
+                .loan(null)
                 .createdDate(OffsetDateTime.now())
                 .lastUpdateDate(OffsetDateTime.now())
                 .build();
 
-        repository.save(book);
+        return repository.save(book);
     }
 
     @Override

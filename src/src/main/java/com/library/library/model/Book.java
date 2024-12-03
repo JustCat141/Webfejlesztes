@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @With
@@ -13,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "BOOKS")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public class Book extends ObjectModel {
     @Id
     @EqualsAndHashCode.Include
@@ -31,6 +33,10 @@ public class Book extends ObjectModel {
 
     @JsonIgnore
     @ToString.Exclude
-    @OneToMany(mappedBy = "book")
-    private Set<Loan> loans;
+    @OneToOne(mappedBy = "book")
+    private Loan loan;
+
+    public boolean isBorrowed() {
+        return loan != null;
+    }
 }
