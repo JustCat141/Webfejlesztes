@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -18,6 +19,14 @@ public class LoanService {
     private CommonLoanService loanService;
     private CommonBookService bookService;
     private CommonMemberService memberService;
+
+    public List<Loan> findAll() {
+        return loanService.findAll();
+    }
+
+    public Loan findById(int id) {
+        return loanService.findById(id);
+    }
 
     public Loan create(Member member, Book book) {
 
@@ -32,7 +41,6 @@ public class LoanService {
                 .borrowedBy(member)
                 .book(book)
                 .loanDate(today)
-                .returnDate(returnDate)
                 .createdDate(today)
                 .lastUpdateDate(today)
                 .build();

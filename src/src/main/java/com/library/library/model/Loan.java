@@ -31,6 +31,4 @@ public class Loan extends ObjectModel{
 
     @Column(nullable = false)
     private OffsetDateTime returnDueDate;
-
-    private OffsetDateTime returnDate;
 }
