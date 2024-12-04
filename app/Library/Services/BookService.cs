@@ -15,6 +15,9 @@ namespace Library.Services
         public async Task<IEnumerable<Book>?> GetAllBooksAsync() =>
             await _httpClient.GetFromJsonAsync<IEnumerable<Book>?>("books");
 
+        public async Task<IEnumerable<Book>?> GetAllActiveBooksAsync() =>
+            await _httpClient.GetFromJsonAsync<IEnumerable<Book>?>("books/available");
+
         public async Task<Book?> GetBookByIdAsync(int id) =>
             await _httpClient.GetFromJsonAsync<Book?>($"book/{id}");
 

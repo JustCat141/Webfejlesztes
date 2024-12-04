@@ -30,8 +30,13 @@ public class LoanController {
         return LoanResponseDto.of(service.findById(id));
     }
 
-    @PostMapping("loan/loan-book")
-    public void create(@RequestBody LoanRequestDto loan) {
-        service.create(loan.getMemberId(), loan.getBookId());
+    @GetMapping("loan/member/{id}")
+    public List<LoanResponseDto> findAllByMemberId(@PathVariable int id) {
+        return service.findAllByMemberId(id);
+    }
+
+    @PostMapping("loan/loan-book/{memberId}/{bookId}")
+    public void create(@PathVariable int memberId, @PathVariable int bookId) {
+        service.create(memberId, bookId);
     }
 }

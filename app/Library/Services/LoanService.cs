@@ -12,8 +12,8 @@ namespace Library.Services
             _httpClient = httpClient;
         }
 
-        public async Task CreateLoanAsync(Loan loan) =>
-            await _httpClient.PostAsJsonAsync("loan/loan-book", loan);
+        public async Task CreateLoanAsync(int memberId, int bookId) =>
+            await _httpClient.PostAsJsonAsync($"loan/loan-book/{memberId}/{bookId}", new Loan());
 
         public Task DeleteLoanAsync(Loan loan) => 
             throw new NotImplementedException();
@@ -21,8 +21,18 @@ namespace Library.Services
         public async Task<IEnumerable<Loan>?> GetAllLoansAsync() =>
             await _httpClient.GetFromJsonAsync<IEnumerable<Loan>?>("loans");
 
-        public Task<Book?> GetLoanByIdAsync(int id) => throw new NotImplementedException();
+        public Task<Book?> GetLoanByIdAsync(int id) 
+            => throw new NotImplementedException();
 
-        public Task UpdateLoanAsync(Loan loan) => throw new NotImplementedException();
+        public async Task<IEnumerable<Loan>?> GetAllLoansByMemberIdAsync(int id) =>
+            await _httpClient.GetFromJsonAsync<IEnumerable<Loan>?>($"loan/member/{id}");
+
+        public Task UpdateLoanAsync(Loan loan) 
+            => throw new NotImplementedException();
+
+        Task<Loan?> ILoanService.GetLoanByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

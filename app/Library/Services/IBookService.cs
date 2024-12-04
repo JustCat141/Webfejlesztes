@@ -7,6 +7,8 @@ namespace Library.Services
     {
         Task<IEnumerable<Book>?> GetAllBooksAsync();
 
+        Task<IEnumerable<Book>?> GetAllActiveBooksAsync();
+
         Task<Book?> GetBookByIdAsync(int id);
 
         Task UpdateBookAsync(Book book);

@@ -4,6 +4,8 @@
 @using Library.Services
 
 @inject IMemberService memberService
+@inject IBookService bookService
+@inject ILoanService loanService
 
 @if (member is null)
 {
@@ -47,14 +49,138 @@ else
     </div>
 }
 
+<h3>Active Loans</h3>
+
+<table class="table">
+	<thead>
+        <tr>
+            <th>Book</th>
+			<th>Loan Date</th>
+            <th>Return Deadline</th>
+            <th>State</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+		@if (activeLoans is null)
+		{
+			<tr>
+                <td colspan="5" class="text-center">
+                    <LoadingSpinner Message="Fetching data, please wait..."/>
+                </td>
+            </tr>
+		}
+		else if (activeLoans is not null && !activeLoans.Any())
+		{
+			<tr>
+                <td colspan="5" class="text-center">
+                    Nothing to see here.
+                </td>
+			</tr>
+		}
+		else
+		{
+			foreach (var loan in activeLoans)
+			{
+				<tr>
+					<td>
+						<a class="text-decoration-none" href="/book/details/@loan.Book.Id">@loan.Book.Title</a>
+					</td>
+					<td>@loan.LoanDate.ToString("yyyy.MMM dd.")</td>
+					<td>@loan.ReturnDueDate.ToString("yyyy. MMM dd.")</td>
+					@if (loan.IsOverDue)
+					{
+						<td class="alert">Overdue</td>
+					}
+					else
+					{
+						<td class="alert-success">Active</td>
+					}
+					<td>
+						<button class="btn btn-primary" @onclick="() => OnReturnBookButton(loan.Book.Id)">Return</button>
+					</td>
+				</tr>
+			}
+		}
+	</tbody>
+</table>
+
+<h3>Available books for loaning</h3>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Author</th>
+			<th>Publication Year</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (books is null)
+		{
+			<tr>
+                <td colspan="4">
+                    <LoadingSpinner Message="Fetching data, please wait..."/>
+                </td>
+            </tr>
+        }
+        else if (books is not null && !books.Any())
+        {
+            <tr>
+                <td colspan="4" class="text-center">
+                    Nothing to see here.
+                </td>
+            </tr>
+        }
+        else 
+		{
+			@foreach (var book in books)
+			{
+				<tr>
+                    <td>
+                        <a href="/book/details/@book.Id" class="text-decoration-none" title="Show @(book.Title) details">@book.Title</a>
+                    </td>
+                    <td>@book.Author</td>
+                    <td>@book.PublicationYear</td>
+                    <td d-flex justify-content-end>
+                        <button class="btn btn-primary" @onclick="() => OnLoanBookButton(book.Id)">Loan</button>
+                    </td>
+                </tr>
+			}
+		}
+	</tbody>
+</table>	
+
 @code {
 	[Parameter]
 	public int Id { get; set; }
 
 	private Member? member { get; set; }
+	private IEnumerable<Loan>? activeLoans { get; set; }
+	private IEnumerable<Book>? books { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
+		await LoadData();
+	}
+
+	private async Task OnReturnBookButton(int id)
+	{
+		await bookService.ReturnBook(id);
+		await LoadData();
+	}
+
+	private async Task OnLoanBookButton(int id)
+	{
+		await loanService.CreateLoanAsync(member.Id, id);
+		await LoadData();
+	}
+
+	private async Task LoadData()
+	{
 		member = await memberService.GetMemberByIdAsync(Id);
+		activeLoans = await loanService.GetAllLoansByMemberIdAsync(member.Id);
+		books = await bookService.GetAllActiveBooksAsync();
 	}
 }

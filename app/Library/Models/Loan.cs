@@ -1,14 +1,18 @@
-﻿namespace Library.Models
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Library.Models
 {
     public class Loan : Object
     {
-        public int MemberId { get; set; }
-        public int BookId { get; set; }
-        
+        [NotNull]
+        public Member Member { get; init; }
+        [NotNull]
+        public Book Book { get; init; }
+
         public DateTimeOffset LoanDate { get; set; }
         public DateTimeOffset ReturnDueDate { get; set; }
 
-        public static Loan FromDto(LoanResponseDto dto)
+        /*public static Loan FromDto(LoanResponseDto dto)
         {
             return new Loan()
             {
@@ -21,6 +25,9 @@
                 CreatedDate = dto.CreatedDate,
                 LastUpdateDate = dto.LastUpdateDate
             };
-        }
+        }*/
+
+        public bool IsOverDue =>
+            ReturnDueDate < DateTimeOffset.Now;
     }
 }

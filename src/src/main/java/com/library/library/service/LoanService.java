@@ -1,5 +1,6 @@
 package com.library.library.service;
 
+import com.library.library.controller.dto.LoanResponseDto;
 import com.library.library.model.Book;
 import com.library.library.model.Loan;
 import com.library.library.model.Member;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -52,5 +54,13 @@ public class LoanService {
         loanService.create(newLoan);
 
         return newLoan;
+    }
+
+    public List<LoanResponseDto> findAllByMemberId(int id) {
+        var member = memberService.findById(id);
+        return member.getLoans()
+                .stream()
+                .map(LoanResponseDto::of)
+                .collect(Collectors.toList());
     }
 }
