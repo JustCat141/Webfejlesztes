@@ -33,7 +33,7 @@ public class CommonLoanService implements CommonService<Loan>{
         return repository.save(loan);
     }
 
-    public LoanResponseDto update(Loan obj) {
+    public Loan update(Loan obj) {
         obj.setLastUpdateDate(OffsetDateTime.now());
         return repository.save(obj);
     }

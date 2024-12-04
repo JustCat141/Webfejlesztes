@@ -132,7 +132,7 @@
     private async void AddMember()
     {
         await memberService.CreateMemberAsync(newMember);
-
+        
         members = await memberService.GetAllMembersAsync(); 
 
         CloseModal();
@@ -141,7 +141,9 @@
 
     private async void DeleteMember(int id)
     {
-        memberService.DeleteMemberAsync(id);
+        await memberService.DeleteMemberAsync(id);
+        members = await memberService.GetAllMembersAsync(); 
+        StateHasChanged();
     }
 
     private void ShowAddMemberModal()

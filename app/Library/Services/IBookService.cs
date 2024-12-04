@@ -11,8 +11,10 @@ namespace Library.Services
 
         Task UpdateBookAsync(Book book);
 
-        Task DeleteBookAsync(Book book);
-
         Task CreateBookAsync(Book book);
+
+        Task DeleteBookAsync(int id);
+
+        Task ReturnBook(int id);
     }
 }

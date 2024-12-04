@@ -2,6 +2,7 @@ package com.library.library.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -22,13 +23,13 @@ public class Book extends ObjectModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
 
-    @Column(nullable = false)
+    @NotNull
     private String title;
 
-    @Column(nullable = false)
+    @NotNull
     private String author;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer publicationYear;
 
     @JsonIgnore

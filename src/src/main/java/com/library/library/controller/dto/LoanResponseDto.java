@@ -14,7 +14,7 @@ import java.time.OffsetDateTime;
 @Builder
 public class LoanResponseDto {
     int id;
-    MemberDto memberId;
+    MemberDto member;
     BookDto book;
     OffsetDateTime loanDate;
     OffsetDateTime returnDueDate;
@@ -25,7 +25,7 @@ public class LoanResponseDto {
     public static LoanResponseDto of(Loan loan) {
         return LoanResponseDto.builder()
                 .id(loan.getId())
-                .memberId(MemberDto.of(loan.getBorrowedBy()))
+                .member(MemberDto.of(loan.getBorrowedBy()))
                 .book(BookDto.of(loan.getBook()))
                 .loanDate(loan.getLoanDate())
                 .returnDueDate(loan.getReturnDueDate())

@@ -7,6 +7,7 @@ import com.library.library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,13 +29,38 @@ public class BookController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("books/available")
+    public List<BookDto> findAllAvailable() {
+        return service
+                .findAll()
+                .stream()
+                .filter(book -> !book.isBorrowed())
+                .map(BookDto::of)
+                .collect(Collectors.toList());
+    }
+
     @GetMapping("book/{id}")
     public BookDto findById(@PathVariable int id) {
         return BookDto.of(service.findById(id));
     }
 
+    @PutMapping("book/update")
+    public BookDto update(@RequestParam BookDto bookDto) {
+        return service.update(bookDto);
+    }
+
     @PostMapping("book/create")
     public void create(@RequestBody BookDto bookDto) {
         service.create(bookDto);
+    }
+
+    @DeleteMapping("book/delete/{id}")
+    public void delete(@PathVariable int id) {
+        service.delete(id);
+    }
+
+    @DeleteMapping("book/return/{id}")
+    public void returnBook(@PathVariable int id) {
+        service.returnBook(id);
     }
 }

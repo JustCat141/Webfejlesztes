@@ -39,8 +39,8 @@ public class MemberController {
     }
 
     @PutMapping("member/update")
-    public Member update(@RequestBody MemberDto member) {
-        memberService.update(member);
+    public MemberDto update(@RequestBody MemberDto member) {
+        return memberService.update(member);
     }
 
     @DeleteMapping("member/delete/{id}")

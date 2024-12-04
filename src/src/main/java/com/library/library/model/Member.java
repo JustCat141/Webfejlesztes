@@ -25,16 +25,16 @@ public class Member extends ObjectModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
 
-    @Column(unique = true, nullable = false)
+    @NotNull
     private String firstName;
 
-    @Column(unique = true, nullable = false)
+    @NotNull
     private String lastName;
 
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @NotNull
     private OffsetDateTime birthDate;
 
     @JsonIgnore
