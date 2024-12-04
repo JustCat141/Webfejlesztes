@@ -141,6 +141,10 @@
     {
         newBook.Id = int.MinValue;
         await bookService.CreateBookAsync(newBook);
+
+        books = await bookService.GetAllBooksAsync();
+
+        CloseModal();
         StateHasChanged();
     }
 }

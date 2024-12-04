@@ -1,6 +1,6 @@
 ﻿namespace Library.Models
 {
-    public class Loan : ObjectModel
+    public class Loan : Object
     {
         public int MemberId { get; set; }
         public int BookId { get; set; }

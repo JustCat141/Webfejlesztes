@@ -29,7 +29,9 @@ public class LoanService {
         return loanService.findById(id);
     }
 
-    public Loan create(Member member, Book book) {
+    public Loan create(int memberId, int bookId) {
+        Member member = memberService.findById(memberId);
+        Book book = bookService.findById(bookId);
 
         if (book.isBorrowed()) {
             throw new RuntimeException("Book is already loaned by someone else!");
@@ -42,6 +44,7 @@ public class LoanService {
                 .borrowedBy(member)
                 .book(book)
                 .loanDate(today)
+                .returnDueDate(returnDate)
                 .createdDate(today)
                 .lastUpdateDate(today)
                 .build();

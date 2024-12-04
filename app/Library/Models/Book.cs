@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Library.Models
 {
-    public class Book : ObjectModel
+    public class Book : Object
     {
         [Required(ErrorMessage = "Title is required.")]
         public string Title { get; set; }

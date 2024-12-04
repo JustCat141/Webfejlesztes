@@ -132,7 +132,11 @@
     private async void AddMember()
     {
         await memberService.CreateMemberAsync(newMember);
+
+        members = await memberService.GetAllMembersAsync(); 
+
         CloseModal();
+        StateHasChanged();
     }
 
     private void ShowAddMemberModal()

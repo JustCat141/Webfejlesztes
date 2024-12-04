@@ -2,7 +2,7 @@
 
 namespace Library.Models
 {
-    public class Member : ObjectModel
+    public class Member : Object
     {
         public const int MINIMUM_MEMBER_AGE = 6;
 
@@ -13,6 +13,7 @@ namespace Library.Models
         public string FullName =>
             $"{FirstName} {LastName}";
 
+        [Required]
         [EmailAddress(ErrorMessage = "Invalid email")]
         public string Email { get; set; }
 
