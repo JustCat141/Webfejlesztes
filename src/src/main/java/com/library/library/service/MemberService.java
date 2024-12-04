@@ -39,18 +39,22 @@ public class MemberService {
         return memberService.findById(id);
     }
 
-    public Member update(Member member) {
+    public MemberDto update(MemberDto member) {
         return memberService.update(member);
     }
 
-    public void delete(Member member) throws OperationNotSupportedException {
+    public void delete(int id) {
+
+        var member = memberService.findById(id);
 
         if (!member.getLoans().isEmpty()) {
-            throw new OperationNotSupportedException("Cannot delete member with active loans");
+            throw new RuntimeException("Cannot delete member with active loans");
         }
 
-        member.getLoans().forEach(loanService::delete);
-        memberService.delete(member);
+        member.getLoans().forEach(
+                loan -> loanService.delete(loan.getId())
+        );
+        memberService.delete(id);
     }
 
     public List<Loan> getMemberLoans(Member member) {

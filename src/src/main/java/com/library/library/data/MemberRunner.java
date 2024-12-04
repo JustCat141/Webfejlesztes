@@ -1,33 +1,37 @@
 package com.library.library.data;
-/*
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.library.library.model.Member;
 import com.library.library.repository.MemberRepository;
-import com.library.library.service.MemberService;
 import lombok.AllArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.boot.CommandLineRunner;
 
-import java.time.LocalDateTime;
+import java.io.InputStream;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
-public class MemberRunner
-        implements CommandLineRunner {
+@Order(1)
+public class MemberRunner implements CommandLineRunner {
 
-    private final MemberRepository memberRepository;
+    private final MemberRepository repository;
+    private final ObjectMapper objectMapper;
 
     @Override
     public void run(String... args) throws Exception {
-        Member member = Member.builder()
-                .firstName("Kapa")
-                .lastName("Károly")
-                .email("kapa@gmail.com")
-                .birthDate(LocalDateTime.now().minusYears(21))
-                .createdDate(LocalDateTime.now())
-                .lastUpdateDate(LocalDateTime.now())
-                .build();
+        InputStream jsonStream = getClass().getResourceAsStream("/data/members.json");
+        if (jsonStream == null) {
+            throw new IllegalArgumentException("members.json not found!");
+        }
 
-        memberRepository.save(member);
+        List<Member> members = objectMapper.readValue(jsonStream, new TypeReference<List<Member>>() {});
+        members.forEach(member -> member.setLoans(new HashSet<>()));
+
+        repository.saveAll(members);
     }
 }
-*/

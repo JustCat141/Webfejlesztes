@@ -1,6 +1,7 @@
 package com.library.library.controller;
 
 import com.library.library.controller.dto.MemberDto;
+import com.library.library.model.Member;
 import com.library.library.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -27,9 +28,23 @@ public class MemberController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("member/{id}")
+    public Member findById(@PathVariable int id) {
+        return memberService.findById(id);
+    }
+
     @PostMapping("member/create")
     public void create(@RequestBody MemberDto memberDto) {
-
         memberService.create(memberDto);
+    }
+
+    @PutMapping("member/update")
+    public Member update(@RequestBody MemberDto member) {
+        memberService.update(member);
+    }
+
+    @DeleteMapping("member/delete/{id}")
+    public void delete(@PathVariable int id) {
+        memberService.delete(id);
     }
 }

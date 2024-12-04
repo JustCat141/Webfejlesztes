@@ -10,7 +10,7 @@ namespace Library.Services
 
         Task UpdateMemberAsync(Member member);
 
-        Task DeleteMemberAsync(Member member);
+        Task DeleteMemberAsync(int id);
 
         Task CreateMemberAsync(Member member);
     }

@@ -38,7 +38,6 @@ public class Member extends ObjectModel {
     private OffsetDateTime birthDate;
 
     @JsonIgnore
-    @NotNull
     @OneToMany(mappedBy = "borrowedBy")
     private Set<Loan> loans;
 }

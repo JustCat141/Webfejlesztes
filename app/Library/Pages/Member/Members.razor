@@ -102,14 +102,14 @@
                     </td>
                     <td>@member.Email</td>
                     <td>@member.Age</td>
-                    <td>@member.BirthDate.ToString("yyyy.MMMM.dd")</td>
+                    <td>@member.BirthDate.ToString("yyyy. MMMM. dd")</td>
                     <td>
                         <a class="btn btn-primary" title="Edit @member.FullName's data" href="member/edit/@member.Id">
                             <i class="bi bi-pencil-square"></i>
                         </a>
-                        <a class="btn btn-outline-danger" title="Delete member">
+                        <button class="btn btn-outline-danger" title="Delete member" @onclick="() => DeleteMember(member.Id)">
                             <i class="bi bi-trash"></i>
-                        </a>
+                        </button>
                     </td>
                 </tr>
             }
@@ -137,6 +137,11 @@
 
         CloseModal();
         StateHasChanged();
+    }
+
+    private async void DeleteMember(int id)
+    {
+        memberService.DeleteMemberAsync(id);
     }
 
     private void ShowAddMemberModal()

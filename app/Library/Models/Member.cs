@@ -28,7 +28,7 @@ namespace Library.Models
 
         public Member() : base()
         {
-            BirthDate = DateTimeOffset.Now;
+            BirthDate = DateTimeOffset.Now.AddDays(new Random().Next(-30000, 0));
         }
     }
 }

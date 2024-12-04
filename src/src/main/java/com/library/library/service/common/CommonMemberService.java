@@ -1,5 +1,6 @@
 package com.library.library.service.common;
 
+import com.library.library.controller.dto.MemberDto;
 import com.library.library.model.Member;
 import com.library.library.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,14 +42,20 @@ public class CommonMemberService implements CommonService<Member> {
         return repository.save(newMember);
     }
 
-    @Override
-    public Member update(Member member) {
+    public MemberDto update(MemberDto memberDto) {
+        var member = findById(memberDto.getId())
+                .withFirstName(memberDto.getFirstName())
+                .withLastName(memberDto.getLastName())
+                .withEmail(memberDto.getEmail());
+
         member.setLastUpdateDate(OffsetDateTime.now());
-        return repository.save(member);
+        repository.save(member);
+
+        return MemberDto.of(findById(member.getId()));
     }
 
     @Override
-    public void delete(Member member) {
-        repository.deleteById(member.getId());
+    public void delete(int id) {
+        repository.deleteById(id);
     }
 }

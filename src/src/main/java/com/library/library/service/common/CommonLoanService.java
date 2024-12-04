@@ -1,5 +1,6 @@
 package com.library.library.service.common;
 
+import com.library.library.controller.dto.LoanResponseDto;
 import com.library.library.model.Book;
 import com.library.library.model.Loan;
 import com.library.library.model.Member;
@@ -32,15 +33,14 @@ public class CommonLoanService implements CommonService<Loan>{
         return repository.save(loan);
     }
 
-    @Override
-    public Loan update(Loan obj) {
+    public LoanResponseDto update(Loan obj) {
         obj.setLastUpdateDate(OffsetDateTime.now());
         return repository.save(obj);
     }
 
     @Override
-    public void delete(Loan obj) {
-        repository.deleteById(obj.getId());
+    public void delete(int id) {
+        repository.deleteById(id);
     }
 
     public List<Loan> findByBorrower(Member member) {

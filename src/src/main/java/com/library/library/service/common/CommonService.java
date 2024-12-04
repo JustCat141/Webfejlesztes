@@ -11,7 +11,5 @@ public interface CommonService<T> {
 
     T findById(int id);
 
-    public T update(T obj);
-
-    public void delete(T obj);
+    public void delete(int id);
 }

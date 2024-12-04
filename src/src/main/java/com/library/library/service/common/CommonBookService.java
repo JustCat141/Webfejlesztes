@@ -1,5 +1,6 @@
 package com.library.library.service.common;
 
+import com.library.library.controller.dto.BookDto;
 import com.library.library.model.Book;
 import com.library.library.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,14 +41,20 @@ public class CommonBookService implements CommonService<Book> {
         return repository.save(book);
     }
 
-    @Override
-    public Book update(Book obj) {
-        obj.setLastUpdateDate(OffsetDateTime.now());
-        return repository.save(obj);
+    public BookDto update(BookDto obj) {
+        var book = findById(obj.getId())
+                .withTitle(obj.getTitle())
+                .withAuthor(obj.getAuthor())
+                .withPublicationYear(obj.getPublicationYear());
+
+        book.setLastUpdateDate(OffsetDateTime.now());
+
+        repository.save(book);
+        return BookDto.of(findById(book.getId()));
     }
 
     @Override
-    public void delete(Book obj) {
-        repository.deleteById(obj.getId());
+    public void delete(int id) {
+        repository.deleteById(id);
     }
 }

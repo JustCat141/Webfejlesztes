@@ -15,20 +15,15 @@ namespace Library.Services
         public async Task CreateMemberAsync(Member member) =>
             await _httpClient.PostAsJsonAsync("member/create", member);
 
-        public Task DeleteMemberAsync(Member member)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task DeleteMemberAsync(int id) =>
+            await _httpClient.DeleteAsync($"member/delete/{id}");
 
         public async Task<IEnumerable<Member>?> GetAllMembersAsync() =>
             await _httpClient.GetFromJsonAsync<IEnumerable<Member>?>("members");
 
 
-        public async Task<Member?> GetMemberByIdAsync(int id)
-        {
-            var members = await GetAllMembersAsync();
-            return members.First(m => m.Id.Equals(id));
-        }
+        public async Task<Member?> GetMemberByIdAsync(int id) =>
+            await _httpClient.GetFromJsonAsync<Member?>($"member/{id}");
 
         public Task UpdateMemberAsync(Member member)
         {

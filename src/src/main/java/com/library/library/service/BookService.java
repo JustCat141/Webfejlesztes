@@ -36,10 +36,14 @@ public class BookService {
         );
     }
 
+    public BookDto update(BookDto bookDto) {
+        return bookService.update(bookDto);
+    }
+
     public void returnBook(int id) {
         Loan activeLoan = loanService.findByBookId(id);
 
-        loanService.delete(activeLoan);
+        loanService.delete(activeLoan.getId());
     }
 
 }
