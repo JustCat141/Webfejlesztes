@@ -50,4 +50,8 @@ public class CommonLoanService implements CommonService<Loan>{
     public Loan findByBook(Book book) {
         return repository.findByBook(book);
     }
+
+    public Loan findByBookId(int id) {
+        return repository.findByBookId(id);
+    }
 }

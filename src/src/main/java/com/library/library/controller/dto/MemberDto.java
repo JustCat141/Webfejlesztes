@@ -11,6 +11,7 @@ import java.time.OffsetDateTime;
 @Data
 @Builder
 public class MemberDto {
+    int id;
     String firstName;
     String lastName;
     String email;
@@ -21,6 +22,7 @@ public class MemberDto {
 
     public static MemberDto of(Member member) {
         return MemberDto.builder()
+                .id(member.getId())
                 .firstName(member.getFirstName())
                 .lastName(member.getLastName())
                 .email(member.getEmail())

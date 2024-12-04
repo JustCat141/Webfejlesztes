@@ -123,11 +123,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadSampleDataAsync();
-    }
-
-    private async Task LoadSampleDataAsync()
-    {
         books = await bookService.GetAllBooksAsync();
     }
 
@@ -145,7 +140,7 @@
     private async Task AddBook()
     {
         newBook.Id = int.MinValue;
-        await bookService.AddBookAsync(newBook);
+        await bookService.CreateBookAsync(newBook);
         StateHasChanged();
     }
 }

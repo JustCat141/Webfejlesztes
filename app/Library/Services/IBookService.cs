@@ -13,6 +13,6 @@ namespace Library.Services
 
         Task DeleteBookAsync(Book book);
 
-        Task AddBookAsync(Book book);
+        Task CreateBookAsync(Book book);
     }
 }

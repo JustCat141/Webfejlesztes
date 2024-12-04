@@ -13,7 +13,7 @@ namespace Library.Services
         }
 
         public async Task<IEnumerable<Book>?> GetAllBooksAsync() =>
-            await _httpClient.GetFromJsonAsync<IEnumerable<Book>?>("sample-data/books.json");
+            await _httpClient.GetFromJsonAsync<IEnumerable<Book>?>("books");
 
         public async Task<Book?> GetBookByIdAsync(int id)
         {
@@ -24,8 +24,8 @@ namespace Library.Services
         public async Task UpdateBookAsync(Book book) =>
             await _httpClient.PutAsJsonAsync("sample-data/books.json", book);
 
-        public async Task AddBookAsync(Book book) =>
-            await _httpClient.PostAsJsonAsync("sample-data/books.json", book);
+        public async Task CreateBookAsync(Book book) =>
+            await _httpClient.PostAsJsonAsync("book/create", book);
 
         public async Task DeleteBookAsync(Book book)
         {
