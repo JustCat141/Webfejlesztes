@@ -3,37 +3,18 @@
 @using Library.Models
 @using Library.Services
 
+@inject IBookService bookService
 @inject ILoanService loanService
 
-<header>
-    <h3 class="fw-bold">Library Loans</h3>
-    <div class="d-flex justify-content-end mb-3">
-        <a href="/loan/library-loans/none" class="btn btn-outline-primary me-2">
-            All Loans
-        </a>
-        <a href="/loan/library-loans/active" class="btn btn-outline-primary me-2">
-            Active Loans
-        </a>
-        <a href="/loan/library-loans/late-returned" class="btn btn-outline-primary me-2">
-            Late Returned Loans
-        </a>
-        <a href="/loan/library-loans/not-returned" class="btn btn-outline-primary me-2">
-            Not Returned Loans
-        </a>
-        <a href="/loan/library-loans/returned" class="btn btn-outline-primary me-2">
-            Returned Loans
-        </a>
-    </div>
-</header>
+<h3>All Loans</h3>
 
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>State</th>
             <th>Book</th>
             <th>Loaned By</th>
             <th>Return Deadline</th>
+            <th>State</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -56,9 +37,25 @@
         }
         else
         {
-            <tr>
-                <td></td>
-            </tr>
+            foreach (var loan in loans)
+            {
+                <tr>
+                    <td><a href="book/details/@loan.Book.Id" class="text-decoration-none">@loan.Book.Title</a></td>
+                    <td><a href="member/details/@loan.Member.Id" class="text-decoration-none">@loan.Member.FullName</a></td>
+                    <td>@loan.ReturnDueDate.ToString("yyyy. MMM dd")</td>
+                    @if (loan.IsOverDue)
+					{
+						<td class="text-danger">Overdue</td>
+					}
+					else
+					{
+						<td class="text-success">Active</td>
+					}
+                    <td>
+						<button class="btn btn-primary" @onclick="() => OnReturnBookButton(loan.Book.Id)">Return</button>
+					</td>
+                </tr>
+            }
         }
     </tbody>
 </table>
@@ -71,6 +68,11 @@
 
     protected override async Task OnInitializedAsync()
     {
+        loans = await loanService.GetAllLoansAsync();
+    }
+
+    private async Task OnReturnBookButton(int id) {
+        await bookService.ReturnBook(id);
         loans = await loanService.GetAllLoansAsync();
     }
 }

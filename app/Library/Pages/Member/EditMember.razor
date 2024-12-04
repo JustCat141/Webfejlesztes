@@ -53,8 +53,9 @@ else
         member = await memberService.GetMemberByIdAsync(Id);
     }
 
-    private void Save()
+    private async void Save()
     {
-        navManager.NavigateTo($"/book/details/{member.Id}");
+        await memberService.UpdateMemberAsync(member);
+        navManager.NavigateTo($"/member/details/{member.Id}");
     }
 }

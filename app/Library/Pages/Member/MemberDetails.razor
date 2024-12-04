@@ -3,6 +3,7 @@
 @using Library.Models
 @using Library.Services
 
+@inject NavigationManager navManager;
 @inject IMemberService memberService
 @inject IBookService bookService
 @inject ILoanService loanService
@@ -17,6 +18,13 @@ else
 	<PageTitle>@(member.FullName)'s details</PageTitle>
 	
 	<h3>@(member.FullName)'s details</h3>
+
+	<header>
+		<div class="d-flex justify-content-end mb-3">
+			<a class="btn btn-outline-primary me-2" href="member/edit/@member.Id">Edit</a>
+			<button class="btn btn-outline-primary me-2" @onclick="DeleteMember">Delete</button>
+		</div>
+	</header>
 
 	<table class="h5 table table-bordered">
 		<ObjectDetails Model="member"/>
@@ -42,11 +50,6 @@ else
 			<td>@member.BirthDate.ToString("yyyy. MMMM. dd")</td>
 		</tr>
 	</table>
-
-	<div class="modal-footer">
-		<a href="/member/edit/@member.Id" class="btn btn-primary">Edit</a>
-		<a href="/member/library-members" class="btn btn-secondary">Back</a>
-    </div>
 }
 
 <h3>Active Loans</h3>
@@ -90,11 +93,11 @@ else
 					<td>@loan.ReturnDueDate.ToString("yyyy. MMM dd.")</td>
 					@if (loan.IsOverDue)
 					{
-						<td class="alert">Overdue</td>
+						<td class="text-danger">Overdue</td>
 					}
 					else
 					{
-						<td class="alert-success">Active</td>
+						<td class="text-success">Active</td>
 					}
 					<td>
 						<button class="btn btn-primary" @onclick="() => OnReturnBookButton(loan.Book.Id)">Return</button>
@@ -182,5 +185,11 @@ else
 		member = await memberService.GetMemberByIdAsync(Id);
 		activeLoans = await loanService.GetAllLoansByMemberIdAsync(member.Id);
 		books = await bookService.GetAllActiveBooksAsync();
+	}
+
+	private async void DeleteMember()
+	{
+		await memberService.DeleteMemberAsync(Id);
+		navManager.NavigateTo("/member/library-members");
 	}
 }

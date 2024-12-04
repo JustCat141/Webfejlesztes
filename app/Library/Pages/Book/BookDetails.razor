@@ -3,7 +3,9 @@
 @using Library.Models
 @using Library.Services
 
+@inject NavigationManager navManager
 @inject IBookService bookService
+@inject ILoanService loanService
 
 @if (book is null)
 {
@@ -13,8 +15,15 @@
 else
 {
 	<PageTitle>@(book.Title)'s details</PageTitle>
-	
+
 	<h3>@(book.Title) details</h3>
+
+	<header>
+		<div class="d-flex justify-content-end mb-3">
+			<a class="btn btn-outline-primary me-2" href="book/edit/@book.Id">Edit</a>
+			<button class="btn btn-outline-primary me-2" @onclick="DeleteBook">Delete</button>
+		</div>
+	</header>
 
 	<table class="h5 table table-bordered">
 		<ObjectDetails Model="book"/>
@@ -30,12 +39,36 @@ else
 			<th class="small text-muted pr-2" scope="row">Publication Year</th>
 			<td>@book.PublicationYear</td>
 		</tr>
+		<tr>
+			@if (loan is null)
+			{
+				<th class="small text-muted pr-2" scope="row">Status</th>
+				<td>Available</td>
+			}
+			else if (!loan.IsOverDue)
+			{
+				<th class="small text-muted pr-2 text-success" scope="row">Status</th>
+				<td class="text-success">Loaned</td>
+			}
+			else
+			{
+				<th class="small text-muted pr-2 text-danger" scope="row">Status<i class="bi bi-exclamation-circle text-danger"></i></th>
+				<td class="text-danger">Loaned Overdue</td>
+			}
+		</tr>
+		@if (loan is not null)
+		{
+			<tr><th class="small text-muted p-3"></th></tr>
+			<tr>
+				<th class="small text-muted pr-2" scope="row">Borrowed By</th>
+				<a href="member/details/@loan.Member.Id" class="text-decoration-none">@loan.Member.FullName</a>
+			</tr>
+			<tr>
+				<th class="small text-muted pr-2" scope="row">Return Due</th>
+				<td>@loan.ReturnDueDate.ToString("yyyy. MMMM. dd.")</td>
+			</tr>
+		}
 	</table>
-
-	<div class="modal-footer">
-		<a href="/book/edit/@book.Id" class="btn btn-primary">Edit</a>
-		<a href="/book/library-books" class="btn btn-secondary">Back</a>
-    </div>
 }
 
 @code {
@@ -43,9 +76,17 @@ else
 	public int Id { get; set; }
 
 	private Book? book { get; set; }
+	private Loan? loan { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
 		book = await bookService.GetBookByIdAsync(Id);
+		loan = await loanService.GetLoanByBookIdAsync(Id);
+	}
+
+	private async void DeleteBook()
+	{
+		await bookService.DeleteBookAsync(Id);
+		navManager.NavigateTo("/book/library-books");
 	}
 }

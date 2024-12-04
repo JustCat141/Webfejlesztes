@@ -48,6 +48,10 @@ public class BookService {
     }
 
     public void delete(int id) {
+        Book book = bookService.findById(id);
+        if (book.isBorrowed()) {
+            throw new RuntimeException("Cannot delete book with active loan");
+        }
         bookService.delete(id);
     }
 }

@@ -35,6 +35,12 @@ public class LoanController {
         return service.findAllByMemberId(id);
     }
 
+
+    @GetMapping("loan/book/{id}")
+    public LoanResponseDto findByBookId(@PathVariable int id) {
+        return service.findByBookId(id);
+    }
+
     @PostMapping("loan/loan-book/{memberId}/{bookId}")
     public void create(@PathVariable int memberId, @PathVariable int bookId) {
         service.create(memberId, bookId);

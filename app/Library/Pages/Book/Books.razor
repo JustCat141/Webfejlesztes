@@ -103,9 +103,9 @@
                         <a class="btn btn-primary" title="Edit book" href="book/edit/@book.Id">
                             <i class="bi bi-pencil-square"></i>
                         </a>
-                        <a class="btn btn-outline-danger" title="Delete book">
+                        <button class="btn btn-outline-danger" title="Delete book" @onclick="() => DeleteBook(book.Id)">
                             <i class="bi bi-trash"></i>
-                        </a>
+                        </button>
                     </td>
                 </tr>
 			}
@@ -145,6 +145,13 @@
         books = await bookService.GetAllBooksAsync();
 
         CloseModal();
+        StateHasChanged();
+    }
+
+    private async Task DeleteBook(int id)
+    {
+        await bookService.DeleteBookAsync(id);
+        books = await bookService.GetAllBooksAsync(); 
         StateHasChanged();
     }
 }

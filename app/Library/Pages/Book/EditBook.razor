@@ -53,10 +53,9 @@ else
         book = await bookService.GetBookByIdAsync(Id);
     }
 
-    private void Save()
+    private async void Save()
     {
-        book.LastUpdateDate = DateTimeOffset.Now;
-
+        await bookService.UpdateBookAsync(book);
         navManager.NavigateTo($"/book/details/{book.Id}");
     }
 }

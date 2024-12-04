@@ -45,7 +45,7 @@ public class BookController {
     }
 
     @PutMapping("book/update")
-    public BookDto update(@RequestParam BookDto bookDto) {
+    public BookDto update(@RequestBody BookDto bookDto) {
         return service.update(bookDto);
     }
 

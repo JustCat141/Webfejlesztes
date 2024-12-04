@@ -8,6 +8,7 @@ import com.library.library.service.common.CommonBookService;
 import com.library.library.service.common.CommonLoanService;
 import com.library.library.service.common.CommonMemberService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.convert.Jsr310Converters;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -62,5 +63,14 @@ public class LoanService {
                 .stream()
                 .map(LoanResponseDto::of)
                 .collect(Collectors.toList());
+    }
+
+    public LoanResponseDto findByBookId(int id) {
+        Book book = bookService.findById(id);
+
+        if (!book.isBorrowed())
+            return null;
+
+        return LoanResponseDto.of(book.getLoan());
     }
 }

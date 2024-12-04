@@ -28,7 +28,7 @@ namespace Library.Services
             await _httpClient.PutAsJsonAsync("book/update", book);
 
         public async Task DeleteBookAsync(int id) =>
-            await _httpClient.DeleteAsync($"bood/delete/{id}");
+            await _httpClient.DeleteAsync($"book/delete/{id}");
 
         public async Task ReturnBook(int id) =>
             await _httpClient.DeleteAsync($"book/return/{id}");

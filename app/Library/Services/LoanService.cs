@@ -30,9 +30,16 @@ namespace Library.Services
         public Task UpdateLoanAsync(Loan loan) 
             => throw new NotImplementedException();
 
-        Task<Loan?> ILoanService.GetLoanByIdAsync(int id)
+        public async Task<Loan?> GetLoanByBookIdAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<Loan?>($"loan/book/{id}");
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

@@ -8,11 +8,9 @@ namespace Library.Services
         
         Task<IEnumerable<Loan>?> GetAllLoansByMemberIdAsync(int id);
 
+        Task<Loan?> GetLoanByBookIdAsync(int id);
+
         Task CreateLoanAsync(int memberId, int bookId);
-
-        Task<Loan?> GetLoanByIdAsync(int id);
-
-        Task UpdateLoanAsync(Loan loan);
 
         Task DeleteLoanAsync(Loan loan);
     }
